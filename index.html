@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Painter - WANA</title>
+    <!-- CSS Import -->
+    <link rel="stylesheet" href="css/style.css" />
+    <!-- Icon Kit -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- Painter Container -->
+    <div class="container">
+      <!-- Tool Box Wrapper -->
+      <div class="wrap-tools">
+        <!-- Brush sizing -->
+        <canvas id="brush_preview"></canvas>
+        <div class="brush-size">
+          <div class="size-value"></div>
+          <span>100</span>
+          <input
+            type="range"
+            id="border-line"
+            name="border-line"
+            min="1"
+            max="20"
+            value="10"
+            list="tickmarks"
+          />
+        </div>
+        <!-- Drawing Tools -->
+        <div class="drawing-tools">
+          <button id="pencil" class="ri-pencil-line"></button>
+          <button id="eraser" class="ri-eraser-line"></button>
+          <button id="paint" class="ri-paint-fill"></button>
+          <button id="line">/</button>
+          <button id="square-stroke" class="ri-checkbox-blank-line"></button>
+          <button id="square-fill" class="ri-checkbox-blank-fill"></button>
+          <button
+            id="circle-stroke"
+            class="ri-checkbox-blank-circle-line"
+          ></button>
+          <button
+            id="circle-fill"
+            class="ri-checkbox-blank-circle-fill"
+          ></button>
+        </div>
+        <!-- Text Edit -->
+        <div class="text-options">
+          <select id="select-font" name="select-font" size="1">
+            <option value="arial">Arial</option>
+            <option value="courier-new">Courier New</option>
+            <option value="georgia">Georgia</option>
+            <option value="times-new-roman">Times New Roman</option>
+            <option value="verdana">Verdana</option>
+          </select>
+          <select id="font-size" name="font-size" size="1">
+            <option value="10px">10px</option>
+            <option value="20px">20px</option>
+            <option value="30px">30px</option>
+            <option value="40px">40px</option>
+            <option value="50px">50px</option>
+          </select>
+          <select id="font-type" name="font-type" size="1">
+            <option value="fill">Fill</option>
+            <option value="stroke">Stroke</option>
+          </select>
+          <input type="text" id="text" placeholder="Add text here..." />
+        </div>
+        <!-- Save & Clear -->
+        <div class="save-delete">
+          <button id="save">Save Image</button>
+          <button id="clear">Clear All</button>
+        </div>
+      </div>
+      <!-- Canvas & Colors -->
+      <div class="wrap-canvas">
+        <!-- Canvas -->
+        <canvas id="main-canvas"></canvas>
+        <!-- Colors -->
+        <div class="wrap-colors">
+          <div class="color-option-box">
+            <div class="first-color-options">
+              <div
+                class="color-option"
+                style="background-color: #f981cb"
+                data-color="#f53b57"
+              ></div>
+              <div
+                class="color-option"
+                style="background-color: #4816b3"
+                data-color="#3c40c6"
+              ></div>
+              <div
+                class="color-option"
+                style="background-color: #0f74f9"
+                data-color="#0fbcf9"
+              ></div>
+              <div
+                class="color-option"
+                style="background-color: #1289a7"
+                data-color="#00d8d6"
+              ></div>
+              <div
+                class="color-option"
+                style="background-color: #c4e538"
+                data-color="#05c46b"
+              ></div>
+              <div
+                class="color-option"
+                style="background-color: #ffc312"
+                data-color="#ffa801"
+              ></div>
+              <div
+                class="color-option"
+                style="background-color: #f6e58d"
+                data-color="#ffd32a"
+              ></div>
+              <div
+                class="color-option"
+                style="background-color: #ff8e8e"
+                data-color="#ff3f34"
+              ></div>
+              <div
+                class="color-option"
+                style="background-color: #cce4f7"
+                data-color="#808e9b"
+              ></div>
+              <div
+                class="color-option"
+                style="background-color: #ffffff"
+                data-color="#1e272e"
+              ></div>
+            </div>
+            <div class="second-color-options">
+              <div
+                class="color-option"
+                style="background-color: #f53b57"
+                data-color="#f53b57"
+              ></div>
+              <div
+                class="color-option"
+                style="background-color: #3c40c6"
+                data-color="#3c40c6"
+              ></div>
+              <div
+                class="color-option"
+                style="background-color: #0fbcf9"
+                data-color="#0fbcf9"
+              ></div>
+              <div
+                class="color-option"
+                style="background-color: #00d8d6"
+                data-color="#00d8d6"
+              ></div>
+              <div
+                class="color-option"
+                style="background-color: #05c46b"
+                data-color="#05c46b"
+              ></div>
+              <div
+                class="color-option"
+                style="background-color: #ff6201"
+                data-color="#ffa801"
+              ></div>
+              <div
+                class="color-option"
+                style="background-color: #ffd32a"
+                data-color="#ffd32a"
+              ></div>
+              <div
+                class="color-option"
+                style="background-color: #ff3f34"
+                data-color="#ff3f34"
+              ></div>
+              <div
+                class="color-option"
+                style="background-color: #808e9b"
+                data-color="#808e9b"
+              ></div>
+              <div
+                class="color-option"
+                style="background-color: #1e272e"
+                data-color="#1e272e"
+              ></div>
+            </div>
+          </div>
+          <input type="color" id="color" value="#000000" />
+        </div>
+      </div>
+    </div>
+    <!-- JavaScript Import -->
+    <script src="js/script.js"></script>
+    <!-- End of JavaScript Import -->
+  </body>
+</html>
