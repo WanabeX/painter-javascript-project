@@ -18,7 +18,7 @@
     <div class="container">
       <!-- Tool Box Wrapper -->
       <div class="wrap-tools">
-        <!-- Brush sizing -->
+        <!-- Brush Sizing -->
         <canvas id="brush_preview"></canvas>
         <div class="brush-size">
           <div class="size-value"></div>
@@ -30,15 +30,14 @@
             min="1"
             max="20"
             value="10"
-            list="tickmarks"
           />
         </div>
         <!-- Drawing Tools -->
         <div class="drawing-tools">
-          <button id="pencil" class="ri-pencil-line"></button>
+          <button id="pencil" class="active ri-pencil-line"></button>
           <button id="eraser" class="ri-eraser-line"></button>
           <button id="paint" class="ri-paint-fill"></button>
-          <button id="line">/</button>
+          <button id="line" class="ri-pulse-line"></button>
           <button id="square-stroke" class="ri-checkbox-blank-line"></button>
           <button id="square-fill" class="ri-checkbox-blank-fill"></button>
           <button
@@ -85,59 +84,56 @@
         <!-- Colors -->
         <div class="wrap-colors">
           <div class="color-option-box">
-            <div class="first-color-options">
               <div
                 class="color-option"
                 style="background-color: #f981cb"
-                data-color="#f53b57"
+                data-color="#f981cb"
               ></div>
               <div
                 class="color-option"
                 style="background-color: #4816b3"
-                data-color="#3c40c6"
+                data-color="#4816b3"
               ></div>
               <div
                 class="color-option"
                 style="background-color: #0f74f9"
-                data-color="#0fbcf9"
+                data-color="#0f74f9"
               ></div>
               <div
                 class="color-option"
                 style="background-color: #1289a7"
-                data-color="#00d8d6"
+                data-color="#1289a7"
               ></div>
               <div
                 class="color-option"
                 style="background-color: #c4e538"
-                data-color="#05c46b"
+                data-color="#c4e538"
               ></div>
               <div
                 class="color-option"
                 style="background-color: #ffc312"
-                data-color="#ffa801"
+                data-color="#ffc312"
               ></div>
               <div
                 class="color-option"
                 style="background-color: #f6e58d"
-                data-color="#ffd32a"
+                data-color="#f6e58d"
               ></div>
               <div
                 class="color-option"
                 style="background-color: #ff8e8e"
-                data-color="#ff3f34"
+                data-color="#ff8e8e"
               ></div>
               <div
                 class="color-option"
                 style="background-color: #cce4f7"
-                data-color="#808e9b"
+                data-color="#cce4f7"
               ></div>
               <div
                 class="color-option"
                 style="background-color: #ffffff"
-                data-color="#1e272e"
+                data-color="#ffffff"
               ></div>
-            </div>
-            <div class="second-color-options">
               <div
                 class="color-option"
                 style="background-color: #f53b57"
@@ -188,7 +184,6 @@
                 style="background-color: #1e272e"
                 data-color="#1e272e"
               ></div>
-            </div>
           </div>
           <input type="color" id="color" value="#000000" />
         </div>
