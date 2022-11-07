@@ -69,6 +69,7 @@ function BrushSizeChange(e) {
 function colorChangePicker(e) {
   ctx.strokeStyle = e.target.value;
   ctx.fillStyle = e.target.value;
+  ctx.beginPath();
 }
 
 // Change color use colorPalette
@@ -77,6 +78,7 @@ function colorChangePalette(e) {
   ctx.strokeStyle = colorData;
   ctx.fillStyle = colorData;
   colorPicker.value = colorData;
+  ctx.beginPath();
 }
 
 // Fill canvas
