@@ -30,6 +30,7 @@ ctx.lineCap = "round";
 let isPainting = false;
 let isFilling = false;
 let isPencil = true;
+let isLine = false;
 
 // Painting on canvas
 function onMove(e) {
@@ -55,6 +56,8 @@ function stopPainting() {
 // Erase
 function erase() {
   ctx.strokeStyle = "#ffffff";
+  colorPicker.value = "#ffffff";
+  ctx.fillStyle = "#ffffff";
 }
 
 // Change brush size
@@ -83,6 +86,12 @@ function fillCanvas() {
   }
 }
 
+// Draw straight line
+function drawLine(e) {
+  ctx.lineTo(e.offsetX, e.offsetY);
+  ctx.stroke();
+}
+
 // Activate the btn effect and role of the selected tool
 function toolStatusActive(e) {
   // Activate the btn effect
@@ -93,16 +102,47 @@ function toolStatusActive(e) {
   if (target == "pencil") {
     isPencil = true;
     isFilling = false;
+    isLine = false;
+    isRectangle = false;
+    LinePencilSwitching();
   } else if (target == "eraser") {
     isPencil = true;
     isFilling = false;
+    isLine = false;
+    isRectangle = false;
     erase();
   } else if (target == "paint") {
     isPencil = false;
     isPainting = false;
     isFilling = true;
+    isLine = false;
+    isRectangle = false;
+  } else if (target == "line") {
+    isPencil = false;
+    isFilling = false;
+    isLine = true;
+    isRectangle = false;
+    LinePencilSwitching();
   }
 }
+
+// Pencil, Line tool switchig
+function LinePencilSwitching() {
+  if (isLine) {
+    line.addEventListener("click", toolStatusActive);
+    canvas.addEventListener("click", drawLine);
+    canvas.removeEventListener("mousemove", onMove);
+    canvas.removeEventListener("mousedown", startPainting);
+    canvas.removeEventListener("mouseup", stopPainting);
+    canvas.removeEventListener("mouseleave", stopPainting);
+  } else if (isPencil) {
+    canvas.addEventListener("mousemove", onMove);
+    canvas.addEventListener("mousedown", startPainting);
+    canvas.addEventListener("mouseup", stopPainting);
+    canvas.addEventListener("mouseleave", stopPainting);
+  }
+}
+LinePencilSwitching();
 
 // EventListener
 canvas.addEventListener("mousemove", onMove);
@@ -116,6 +156,3 @@ colorPalette.forEach((color) =>
 );
 brushSize.addEventListener("change", BrushSizeChange);
 toolBtns.forEach((e) => e.addEventListener("click", toolStatusActive));
-pencil.addEventListener("click", toolStatusActive);
-paint.addEventListener("click", toolStatusActive);
-eraser.addEventListener("click", toolStatusActive);
