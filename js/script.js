@@ -12,13 +12,6 @@ const brushSize = document.getElementById("border-line");
 // Toolbox
 const toolBtns = Array.from(document.querySelectorAll(".drawing-tools button"));
 const pencil = document.getElementById("pencil");
-const eraser = document.getElementById("eraser");
-const paint = document.getElementById("paint");
-const line = document.getElementById("line");
-const strokeSquare = document.getElementById("square-stroke");
-const fillSquare = document.getElementById("square-fill");
-const strokeCircle = document.getElementById("circle-stroke");
-const fillCircle = document.getElementById("circle-fill");
 
 // Canvas & Brush set
 canvas.width = 700;
@@ -26,11 +19,16 @@ canvas.height = 700;
 ctx.lineWidth = brushSize.value;
 ctx.lineCap = "round";
 
+// Location
+var locA, locB;
+
 // For tool controls
 let isPainting = false;
 let isFilling = false;
 let isPencil = true;
 let isLine = false;
+let isRectangle = false;
+let isCircle = false;
 
 // Painting on canvas
 function onMove(e) {
@@ -63,6 +61,7 @@ function erase() {
 // Change brush size
 function BrushSizeChange(e) {
   ctx.lineWidth = e.target.value;
+  ctx.beginPath();
 }
 
 // Change color use colorPicker
@@ -94,6 +93,49 @@ function drawLine(e) {
   ctx.stroke();
 }
 
+function getMousePos(canvas, e) {
+  if (isRectangle || isCircle) {
+    var rect = canvas.getBoundingClientRect();
+    return {
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top,
+    };
+  }
+}
+
+function startDrawRect(e) {
+  e.preventDefault();
+  locA = getMousePos(canvas, e);
+}
+
+function stopDrawRect(e) {
+  e.preventDefault();
+  locB = getMousePos(canvas, e);
+  if (isStroke) {
+    ctx.strokeRect(locA.x, locA.y, locB.x - locA.x, locB.y - locA.y); // fillRect(x, y, w, h);
+  } else {
+    ctx.fillRect(locA.x, locA.y, locB.x - locA.x, locB.y - locA.y); // fillRect(x, y, w, h);
+  }
+}
+
+function startDrawCircle(e) {
+  e.preventDefault();
+  locA = getMousePos(canvas, e);
+}
+
+function stopDrawCircle(e) {
+  e.preventDefault();
+  locB = getMousePos(canvas, e);
+  if (isStroke) {
+    ctx.arc(locA.x, locA.y, locB.x - locA.x, 0, Math.PI * 2); // arc(x, y, radius, startAngle, endAngle)
+    ctx.stroke();
+  } else {
+    ctx.arc(locA.x, locA.y, locB.x - locA.x, 0, Math.PI * 2); // arc(x, y, radius, startAngle, endAngle)
+    ctx.fill();
+  }
+  ctx.beginPath();
+}
+
 // Activate the btn effect and role of the selected tool
 function toolStatusActive(e) {
   // Activate the btn effect
@@ -106,12 +148,13 @@ function toolStatusActive(e) {
     isFilling = false;
     isLine = false;
     isRectangle = false;
-    LinePencilSwitching();
+    isStroke = false;
   } else if (target == "eraser") {
     isPencil = true;
     isFilling = false;
     isLine = false;
     isRectangle = false;
+    isStroke = false;
     erase();
   } else if (target == "paint") {
     isPencil = false;
@@ -119,38 +162,86 @@ function toolStatusActive(e) {
     isFilling = true;
     isLine = false;
     isRectangle = false;
+    isStroke = false;
   } else if (target == "line") {
     isPencil = false;
     isFilling = false;
     isLine = true;
     isRectangle = false;
-    LinePencilSwitching();
+    isStroke = false;
+  } else if (target == "square-stroke") {
+    isPencil = false;
+    isFilling = false;
+    isPainting = false;
+    isLine = false;
+    isRectangle = true;
+    isStroke = true;
+  } else if (target == "square-fill") {
+    isPencil = false;
+    isFilling = false;
+    isPainting = false;
+    isLine = false;
+    isRectangle = true;
+    isStroke = false;
+  } else if (target == "circle-stroke") {
+    isPencil = false;
+    isFilling = false;
+    isPainting = false;
+    isLine = false;
+    isRectangle = false;
+    isCircle = true;
+    isStroke = true;
+  } else if (target == "circle-fill") {
+    isPencil = false;
+    isFilling = false;
+    isPainting = false;
+    isLine = false;
+    isRectangle = false;
+    isCircle = true;
+    isStroke = false;
   }
+  eventHandler();
+  ctx.beginPath();
 }
 
 // Pencil, Line tool switchig
-function LinePencilSwitching() {
-  if (isLine) {
-    line.addEventListener("click", toolStatusActive);
-    canvas.addEventListener("click", drawLine);
+function eventHandler() {
+  if (isPencil) {
+    canvas.addEventListener("mousemove", onMove);
+    canvas.addEventListener("mousedown", startPainting);
+    canvas.addEventListener("mouseup", stopPainting);
+    canvas.addEventListener("mouseleave", stopPainting); //마우스가 캔버스 밖으로 나갔을 때의 대비책
+    canvas.removeEventListener("mouseup", stopDrawRect);
+  } else {
+    if (isLine) {
+      canvas.removeEventListener("mouseup", stopDrawRect);
+      line.addEventListener("click", toolStatusActive);
+      canvas.addEventListener("click", drawLine);
+      canvas.removeEventListener("mousedown", startDrawCircle);
+      canvas.removeEventListener("mouseup", stopDrawCircle);
+      canvas.removeEventListener("mousedown", startDrawRect);
+      canvas.removeEventListener("mouseup", stopDrawRect);
+    } else if (isRectangle) {
+      canvas.removeEventListener("click", drawLine);
+      canvas.removeEventListener("mousedown", startDrawCircle);
+      canvas.removeEventListener("mouseup", stopDrawCircle);
+      canvas.addEventListener("mousedown", startDrawRect);
+      canvas.addEventListener("mouseup", stopDrawRect);
+    } else if (isCircle) {
+      canvas.removeEventListener("click", drawLine);
+      canvas.removeEventListener("mousedown", startDrawRect);
+      canvas.removeEventListener("mouseup", stopDrawRect);
+      canvas.addEventListener("mousedown", startDrawCircle);
+      canvas.addEventListener("mouseup", stopDrawCircle);
+    }
     canvas.removeEventListener("mousemove", onMove);
     canvas.removeEventListener("mousedown", startPainting);
     canvas.removeEventListener("mouseup", stopPainting);
     canvas.removeEventListener("mouseleave", stopPainting);
-  } else if (isPencil) {
-    canvas.addEventListener("mousemove", onMove);
-    canvas.addEventListener("mousedown", startPainting);
-    canvas.addEventListener("mouseup", stopPainting);
-    canvas.addEventListener("mouseleave", stopPainting);
   }
 }
-LinePencilSwitching();
+eventHandler();
 
-// EventListener
-canvas.addEventListener("mousemove", onMove);
-canvas.addEventListener("mousedown", startPainting);
-canvas.addEventListener("mouseup", stopPainting);
-canvas.addEventListener("mouseleave", stopPainting);
 canvas.addEventListener("click", fillCanvas);
 colorPicker.addEventListener("change", colorChangePicker);
 colorPalette.forEach((color) =>
