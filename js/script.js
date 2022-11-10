@@ -1,7 +1,9 @@
 // Canvas
 const canvas = document.getElementById("main-canvas");
+const previewCanvas = document.getElementById("brush_preview");
 // Get 2d context
 const ctx = canvas.getContext("2d");
+const previewCtx = previewCanvas.getContext("2d");
 // Colors
 const colorPalette = Array.from(
   document.getElementsByClassName("color-option")
@@ -9,6 +11,8 @@ const colorPalette = Array.from(
 const colorPicker = document.getElementById("color");
 // Brush size
 const brushSize = document.getElementById("border-line");
+const rangeThumbTracker = document.querySelector(".range-thumb-tracker");
+const brushSizeValue = document.querySelector(".size-num");
 // Toolbox
 const toolBtns = Array.from(document.querySelectorAll(".drawing-tools button"));
 const pencil = document.getElementById("pencil");
@@ -16,7 +20,10 @@ const pencil = document.getElementById("pencil");
 // Canvas & Brush set
 canvas.width = 700;
 canvas.height = 700;
+previewCanvas.width = 190;
+previewCanvas.height = 30;
 ctx.lineWidth = brushSize.value;
+previewCtx.lineWidth = brushSize.value;
 ctx.lineCap = "round";
 
 // Location
@@ -58,9 +65,82 @@ function erase() {
   ctx.fillStyle = "#ffffff";
 }
 
+// Fill canvas
+function fillCanvas() {
+  if (isFilling) {
+    ctx.fillRect(0, 0, canvas.width, canvas.height); // fillRect(x, y, w, h);
+  }
+}
+
+// Draw straight line
+function drawLine(e) {
+  ctx.lineTo(e.offsetX, e.offsetY);
+  ctx.stroke();
+}
+
+// Get x, y location to draw rectangle & circle
+function getMousePos(canvas, e) {
+  if (isRectangle || isCircle) {
+    var rect = canvas.getBoundingClientRect();
+    return {
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top,
+    };
+  }
+}
+
+// Control draw rect(start)
+function startDrawRect(e) {
+  e.preventDefault();
+  locA = getMousePos(canvas, e);
+}
+
+// Control draw rect(stop)
+function stopDrawRect(e) {
+  e.preventDefault();
+  locB = getMousePos(canvas, e);
+  if (isStroke) {
+    ctx.strokeRect(locA.x, locA.y, locB.x - locA.x, locB.y - locA.y); // fillRect(x, y, w, h);
+  } else {
+    ctx.fillRect(locA.x, locA.y, locB.x - locA.x, locB.y - locA.y); // fillRect(x, y, w, h);
+  }
+}
+
+// Control draw circle(start)
+function startDrawCircle(e) {
+  e.preventDefault();
+  locA = getMousePos(canvas, e);
+}
+
+// Control draw rect(start)
+function stopDrawCircle(e) {
+  e.preventDefault();
+  locB = getMousePos(canvas, e);
+  if (isStroke) {
+    ctx.arc(locA.x, locA.y, locB.x - locA.x, 0, Math.PI * 2); // arc(x, y, radius, startAngle, endAngle)
+    ctx.stroke();
+  } else {
+    ctx.arc(locA.x, locA.y, locB.x - locA.x, 0, Math.PI * 2); // arc(x, y, radius, startAngle, endAngle)
+    ctx.fill();
+  }
+  ctx.beginPath();
+}
+
+// Brush size preview
+function previewDrawLine() {
+  previewCtx.clearRect(0, 0, previewCanvas.width, previewCanvas.height);
+  previewCtx.moveTo(10, 15);
+  previewCtx.lineTo(180, 15);
+  previewCtx.stroke();
+}
+previewDrawLine();
+
 // Change brush size
 function BrushSizeChange(e) {
   ctx.lineWidth = e.target.value;
+  previewCtx.lineWidth = e.target.value;
+  brushSizeValue.innerText = e.target.value;
+  previewDrawLine();
   ctx.beginPath();
 }
 
@@ -77,62 +157,6 @@ function colorChangePalette(e) {
   ctx.strokeStyle = colorData;
   ctx.fillStyle = colorData;
   colorPicker.value = colorData;
-  ctx.beginPath();
-}
-
-// Fill canvas
-function fillCanvas() {
-  if (isFilling) {
-    ctx.fillRect(0, 0, canvas.width, canvas.height); // fillRect(x, y, w, h);
-  }
-}
-
-// Draw straight line
-function drawLine(e) {
-  ctx.lineTo(e.offsetX, e.offsetY);
-  ctx.stroke();
-}
-
-function getMousePos(canvas, e) {
-  if (isRectangle || isCircle) {
-    var rect = canvas.getBoundingClientRect();
-    return {
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
-    };
-  }
-}
-
-function startDrawRect(e) {
-  e.preventDefault();
-  locA = getMousePos(canvas, e);
-}
-
-function stopDrawRect(e) {
-  e.preventDefault();
-  locB = getMousePos(canvas, e);
-  if (isStroke) {
-    ctx.strokeRect(locA.x, locA.y, locB.x - locA.x, locB.y - locA.y); // fillRect(x, y, w, h);
-  } else {
-    ctx.fillRect(locA.x, locA.y, locB.x - locA.x, locB.y - locA.y); // fillRect(x, y, w, h);
-  }
-}
-
-function startDrawCircle(e) {
-  e.preventDefault();
-  locA = getMousePos(canvas, e);
-}
-
-function stopDrawCircle(e) {
-  e.preventDefault();
-  locB = getMousePos(canvas, e);
-  if (isStroke) {
-    ctx.arc(locA.x, locA.y, locB.x - locA.x, 0, Math.PI * 2); // arc(x, y, radius, startAngle, endAngle)
-    ctx.stroke();
-  } else {
-    ctx.arc(locA.x, locA.y, locB.x - locA.x, 0, Math.PI * 2); // arc(x, y, radius, startAngle, endAngle)
-    ctx.fill();
-  }
   ctx.beginPath();
 }
 
@@ -204,7 +228,7 @@ function toolStatusActive(e) {
   ctx.beginPath();
 }
 
-// Pencil, Line tool switchig
+// Switchig EventListener
 function eventHandler() {
   if (isPencil) {
     canvas.addEventListener("mousemove", onMove);
@@ -242,10 +266,14 @@ function eventHandler() {
 }
 eventHandler();
 
+// EventListener
 canvas.addEventListener("click", fillCanvas);
+toolBtns.forEach((e) => e.addEventListener("click", toolStatusActive));
+brushSize.addEventListener("change", BrushSizeChange);
+brushSize.oninput = function () {
+  rangeThumbTracker.style.left = brushSize.value * 5 + "%";
+};
 colorPicker.addEventListener("change", colorChangePicker);
 colorPalette.forEach((color) =>
   color.addEventListener("click", colorChangePalette)
 );
-brushSize.addEventListener("change", BrushSizeChange);
-toolBtns.forEach((e) => e.addEventListener("click", toolStatusActive));
