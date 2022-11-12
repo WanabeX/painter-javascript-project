@@ -121,14 +121,15 @@ function previewDrawLine() {
 }
 previewDrawLine();
 
-// Change brush size
-function BrushSizeChange(e) {
+// Brush size slider thumb tracker
+brushSize.oninput = function (e) {
+  brushSizeValue.innerText = e.target.value;
+  rangeThumbTracker.style.left = brushSize.value * 5 + "%";
   ctx.lineWidth = e.target.value;
   previewCtx.lineWidth = e.target.value;
-  brushSizeValue.innerText = e.target.value;
   previewDrawLine();
   ctx.beginPath();
-}
+};
 
 // Change color use colorPicker
 function colorChangePicker(e) {
@@ -235,11 +236,6 @@ canvas.addEventListener("click", inputText);
 
 toolBtns.forEach((e) => e.addEventListener("click", toolStatusActive));
 line.addEventListener("click", toolStatusActive);
-
-brushSize.addEventListener("change", BrushSizeChange);
-brushSize.oninput = function () {
-  rangeThumbTracker.style.left = brushSize.value * 5 + "%";
-};
 
 colorPicker.addEventListener("change", colorChangePicker);
 colorPalette.forEach((color) =>
