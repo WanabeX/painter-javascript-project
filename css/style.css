@@ -139,7 +139,7 @@ input[type="range"]::-webkit-slider-thumb {
 /* Drawing Tools */
 .drawing-tools {
   display: flex;
-  flex-direction:row;
+  flex-direction: row;
   width: auto;
   height: 340px;
   flex-wrap: wrap;
@@ -147,11 +147,10 @@ input[type="range"]::-webkit-slider-thumb {
   padding: 17px 5px 17px 5px;
   border-top: 1px solid #3f4552;
   border-bottom: 1px solid #3f4552;
-
 }
 
 .drawing-tools button {
-  background:none;
+  background: none;
   width: 90px;
   height: 75px;
   margin: 2px;
@@ -170,16 +169,17 @@ input[type="range"]::-webkit-slider-thumb {
 
 button.active {
   color: #3f7de1;
-  transform: scale(1.1);
   -webkit-text-stroke: 3px #ffffff;
 }
 
 /* Text Edit */
-div .text-options {
-  display: inline-block;
+.text-options {
+  width: 100%;
+  height: 150px;
+  display: flex;
+  flex-direction: column;
   justify-content: center;
-  margin-top: 30px;
-  padding-bottom: 30px;
+  padding: 30px 0 30px 0;
   border-bottom: 1px solid #3f4552;
 }
 
@@ -195,19 +195,50 @@ div .text-options {
 }
 
 #select-font {
-  width: 95%;
+  width: 80%;
+  height: 42px;
+  margin: 0;
+  left: 20px;
+}
+
+#font-weight {
+  width: 35px;
+  height: 39px;
+  border: none;
+  background: none;
+  padding: 0;
+  margin-bottom: 7px;
+  font-size: 30px;
+  font-weight: 500;
+  vertical-align: middle;
+  cursor: pointer;
+}
+
+button.bold {
+  color: #ffffff;
+  outline: 1px solid #000000;
+  box-shadow: -2px -2px 1px #000000;
+}
+
+#font-weight:hover {
+  color: #ffffff;
 }
 
 #font-size,
 #font-type {
-  width: 45%;
+  width: 49%;
+  margin: 3px -1px 2px 0px;
+  height: 42px;
+}
+
+.input-text {
+  margin-top: 5px;
 }
 
 input[type="text"] {
-  margin-top: 5px;
-  width: 82%;
-  height: 25px;
-  padding: 10px;
+  width: 150px;
+  height: 38px;
+  padding-left: 5px;
   font-size: 20px;
   border: 3px solid #000000;
   background: #ffffff;
@@ -216,6 +247,24 @@ input[type="text"] {
 input[type="text"]:focus {
   background-color: #c1d9ff;
   outline: 0;
+}
+
+#text-submit {
+  font-size: 25px;
+  width: 30px;
+  height: 45px;
+  padding: 5px 3px 5px 0px;
+  margin-bottom: 5px;
+  vertical-align: middle;
+  border: 3px solid #000000;
+  background-color: #3f4552;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+#text-submit:hover {
+  background-color: #3f7de1;
+  border: 3px solid #ffffff;
 }
 
 /* Save & Clear */

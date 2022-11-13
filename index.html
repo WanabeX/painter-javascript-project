@@ -66,25 +66,32 @@
         </div>
         <!-- Text Edit -->
         <div class="text-options">
-          <select id="select-font" name="select-font" size="1">
-            <option value="arial">Arial</option>
-            <option value="courier-new">Courier New</option>
-            <option value="georgia">Georgia</option>
-            <option value="times-new-roman">Times New Roman</option>
-            <option value="verdana">Verdana</option>
-          </select>
-          <select id="font-size" name="font-size" size="1">
-            <option value="10px">10px</option>
-            <option value="20px">20px</option>
-            <option value="30px">30px</option>
-            <option value="40px">40px</option>
-            <option value="50px">50px</option>
-          </select>
-          <select id="font-type" name="font-type" size="1">
-            <option value="fill">Fill</option>
-            <option value="stroke">Stroke</option>
-          </select>
-          <input type="text" id="text" placeholder="Add text here..." />
+          <div class="text-selectors">
+            <select id="select-font" name="select-font" size="1">
+              <option value="Arial">Arial</option>
+              <option value="Courier New">Courier New</option>
+              <option value="Georgia">Georgia</option>
+              <option value="Times New Roman">Times New Roman</option>
+              <option value="Verdana">Verdana</option>
+            </select>
+            <button id="font-weight" class="normal">B</button>
+            <select id="font-size" name="font-size" size="1">
+              <option value="10px">10px</option>
+              <option value="20px">20px</option>
+              <option value="30px">30px</option>
+              <option value="40px">40px</option>
+              <option value="50px">50px</option>
+              <option value="60px">60px</option>
+            </select>
+            <select id="font-type" name="font-type" size="1">
+              <option value="Fill">Fill</option>
+              <option value="Stroke">Stroke</option>
+            </select>
+          </div>
+          <div class="input-text">
+            <input type="text" id="text" placeholder="Add text here..." />
+            <button id="text-submit" class="ri-arrow-right-s-line"></button>
+          </div>
         </div>
         <!-- Save & Clear -->
         <div class="save-delete">

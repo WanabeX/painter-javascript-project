@@ -16,6 +16,13 @@ const brushSizeValue = document.querySelector(".size-num");
 // Toolbox
 const toolBtns = Array.from(document.querySelectorAll(".drawing-tools button"));
 const pencil = document.getElementById("pencil");
+// textInput & Options
+const textOptions = Array.from(
+  document.querySelectorAll(".text-selectors select")
+);
+const fontWeight = document.getElementById("font-weight");
+const textInput = document.getElementById("text");
+const textSubmit = document.getElementById("text-submit");
 
 // Canvas & Brush set
 canvas.width = 700;
@@ -87,7 +94,7 @@ function drawLine(e) {
   }
 }
 
-// get starting point of the shape
+// Get starting point of the shape
 function startDrawShape(e) {
   locA = onMove(e);
 }
@@ -110,6 +117,32 @@ function stopDrawShape(e) {
     }
   }
   ctx.beginPath();
+}
+
+// Set text input options
+function inputTextHandler(e) {
+  const text = textInput.value;
+  if (isText && text !== "") {
+    ctx.save();
+    ctx.lineWidth = 1;
+    ctx.font = `${fontWeight.className} ${textOptions[1].value} ${textOptions[0].value}`;
+    if (textOptions[2].value == "Fill") {
+      ctx.fillText(text, e.offsetX, e.offsetY);
+    } else {
+      ctx.strokeText(text, e.offsetX, e.offsetY);
+    }
+    ctx.restore();
+  }
+}
+
+// Toggle classname for font thickness
+function textBoldActivate(e) {
+  var fontThickness = e.target.className;
+  if (fontThickness == "normal") {
+    e.target.className = "bold";
+  } else {
+    e.target.className = "normal";
+  }
 }
 
 // Brush size preview
@@ -154,7 +187,7 @@ function toolStatusActive(e) {
   e.target.classList.add("active");
   const targetId = e.target.id;
   const targetName = e.target.name;
-  // Activate role
+  // Activate roles
   if (targetName == "drawing") {
     if (targetId == "pencil") {
       isPencil = true;
@@ -177,6 +210,7 @@ function toolStatusActive(e) {
     isRectangle = false;
     isCircle = false;
     isStroke = false;
+    isText = false;
   } else if (targetName == "shape") {
     if (targetId == "square-stroke") {
       isRectangle = true;
@@ -199,6 +233,16 @@ function toolStatusActive(e) {
     isFilling = false;
     isPainting = false;
     isLine = false;
+    isText = false;
+  } else if (targetId == "text-submit") {
+    isPencil = false;
+    isFilling = false;
+    isPainting = false;
+    isLine = false;
+    isRectangle = false;
+    isCircle = false;
+    isStroke = false;
+    isText = true;
   }
   eventHandler();
   ctx.beginPath();
@@ -232,7 +276,7 @@ eventHandler();
 // EventListener
 canvas.addEventListener("click", fillCanvas);
 canvas.addEventListener("click", drawLine);
-canvas.addEventListener("click", inputText);
+canvas.addEventListener("click", inputTextHandler);
 
 toolBtns.forEach((e) => e.addEventListener("click", toolStatusActive));
 line.addEventListener("click", toolStatusActive);
@@ -242,4 +286,5 @@ colorPalette.forEach((color) =>
   color.addEventListener("click", colorChangePalette)
 );
 
+fontWeight.addEventListener("click", textBoldActivate);
 textSubmit.addEventListener("click", toolStatusActive);
