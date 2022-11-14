@@ -25,6 +25,7 @@ const textInput = document.getElementById("text");
 const textSubmit = document.getElementById("text-submit");
 
 const addImageFile = document.getElementById("addImg");
+const saveImageFile = document.getElementById("save");
 
 // Canvas & Brush set
 canvas.width = 700;
@@ -180,6 +181,15 @@ function inputImage(e) {
   };
 }
 
+// Save image
+function saveImage() {
+  const url = canvas.toDataURL();
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "myDrawing.png";
+  a.click();
+}
+
 // Change color use colorPicker
 function colorChangePicker(e) {
   ctx.strokeStyle = e.target.value;
@@ -306,3 +316,4 @@ fontWeight.addEventListener("click", textBoldActivate);
 textSubmit.addEventListener("click", toolStatusActive);
 
 addImageFile.addEventListener("change", inputImage);
+saveImageFile.addEventListener("click", saveImage);
