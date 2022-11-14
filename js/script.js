@@ -16,16 +16,17 @@ const brushSizeValue = document.querySelector(".size-num");
 // Toolbox
 const toolBtns = Array.from(document.querySelectorAll(".drawing-tools button"));
 const pencil = document.getElementById("pencil");
-// textInput & Options
+// TextInput & Options
 const textOptions = Array.from(
   document.querySelectorAll(".text-selectors select")
 );
-const fontWeight = document.getElementById("font-weight");
+const fontWeightBtn = document.getElementById("font-weight");
 const textInput = document.getElementById("text");
 const textSubmit = document.getElementById("text-submit");
-
-const addImageFile = document.getElementById("addImg");
-const saveImageFile = document.getElementById("save");
+// Image edit
+const addImgBtn = document.getElementById("addImg");
+const saveImgBtn = document.getElementById("save");
+const clearBtn = document.getElementById("clear");
 
 // Canvas & Brush set
 canvas.width = 700;
@@ -128,7 +129,7 @@ function inputTextHandler(e) {
   if (isText && text !== "") {
     ctx.save();
     ctx.lineWidth = 1;
-    ctx.font = `${fontWeight.className} ${textOptions[1].value} ${textOptions[0].value}`;
+    ctx.font = `${fontWeightBtn.className} ${textOptions[1].value} ${textOptions[0].value}`;
     if (textOptions[2].value == "Fill") {
       ctx.fillText(text, e.offsetX, e.offsetY);
     } else {
@@ -188,6 +189,17 @@ function saveImage() {
   a.href = url;
   a.download = "myDrawing.png";
   a.click();
+}
+
+// Clear all
+function clearAll() {
+  const confirmMsg = confirm("Are you sure you want to clear everything?");
+  if (confirmMsg) {
+    ctx.fillStyle = "white";
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  } else {
+    return;
+  }
 }
 
 // Change color use colorPicker
@@ -312,8 +324,9 @@ colorPalette.forEach((color) =>
   color.addEventListener("click", colorChangePalette)
 );
 
-fontWeight.addEventListener("click", textBoldActivate);
+fontWeightBtn.addEventListener("click", textBoldActivate);
 textSubmit.addEventListener("click", toolStatusActive);
 
-addImageFile.addEventListener("change", inputImage);
-saveImageFile.addEventListener("click", saveImage);
+addImgBtn.addEventListener("change", inputImage);
+saveImgBtn.addEventListener("click", saveImage);
+clearBtn.addEventListener("click", clearAll);
