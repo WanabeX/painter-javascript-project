@@ -116,7 +116,7 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 .brush-size-tools {
-  width: 90%;
+  width: 100%;
   max-width: 90%;
   position: relative;
 }
@@ -131,7 +131,7 @@ input[type="range"]::-webkit-slider-thumb {
   position: absolute;
   width: 30px;
   bottom: -22px;
-  left: -9px;
+  left: -11px;
   text-align: center;
   font-size: 20px;
 }
@@ -141,10 +141,10 @@ input[type="range"]::-webkit-slider-thumb {
   display: flex;
   flex-direction: row;
   width: auto;
-  height: 340px;
+  height: 320px;
   flex-wrap: wrap;
   margin-top: 30px;
-  padding: 17px 5px 17px 5px;
+  padding: 15px 5px 15px 5px;
   border-top: 1px solid #3f4552;
   border-bottom: 1px solid #3f4552;
 }
@@ -162,14 +162,14 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 .drawing-tools button:hover {
-  color: #3f7de1;
+  color: #3f4552;
   -webkit-text-stroke: 3px #ffffff;
-  transform: scale(1.1);
 }
 
-button.active {
+button.active{
   color: #3f7de1;
-  -webkit-text-stroke: 3px #ffffff;
+  -webkit-text-stroke: 2px #ffffff;
+  box-shadow: -3px -3px 1px #3f4552;
 }
 
 /* Text Edit */
@@ -179,7 +179,7 @@ button.active {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 30px 0 30px 0;
+  padding: 20px 0 20px 0;
   border-bottom: 1px solid #3f4552;
 }
 
@@ -257,7 +257,7 @@ input[type="text"]:focus {
   margin-bottom: 5px;
   vertical-align: middle;
   border: 3px solid #000000;
-  background-color: #3f4552;
+  background: #3f4552;
   color: #ffffff;
   cursor: pointer;
 }
@@ -267,23 +267,45 @@ input[type="text"]:focus {
   border: 3px solid #ffffff;
 }
 
-/* Save & Clear */
-.save-delete {
-  margin-top: 30px;
+#text-submit.active{
+  background:#3f7de1;
+  border: 2px solid #000000;
+  -webkit-text-stroke: 1px #ffffff;
+  box-shadow: -1px -1px 1px #000000;
 }
 
-.save-delete button {
-  width: 100%;
+/* Add, Save Image & Clear */
+.image-edit {
+  margin-top: 20px;
+}
+
+label div{
+  padding: 10px 30px 14px 30px;
+  background-color: #3f4552;
+  color: #ffffff;
+  font-size: 20px;
+  cursor: pointer;
+  border: 3px solid #000000;
+  margin-bottom: 5px;
+}
+
+input[type="file"]{
+display: none;
+}
+
+.image-edit button {
+  width: 200px;
+  height: 50px;
   border: 3px solid #000000;
   background-color: #3f4552;
   color: #ffffff;
   padding: 10px 20px;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
   font-size: 20px;
   cursor: pointer;
 }
 
-.save-delete button:hover {
+.image-edit button:hover, label div:hover{
   background-color: #3f7de1;
   border: 3px solid #ffffff;
 }

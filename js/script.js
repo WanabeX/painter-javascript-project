@@ -24,6 +24,8 @@ const fontWeight = document.getElementById("font-weight");
 const textInput = document.getElementById("text");
 const textSubmit = document.getElementById("text-submit");
 
+const addImageFile = document.getElementById("addImg");
+
 // Canvas & Brush set
 canvas.width = 700;
 canvas.height = 700;
@@ -164,6 +166,20 @@ brushSize.oninput = function (e) {
   ctx.beginPath();
 };
 
+// Add image
+function inputImage(e) {
+  const file = e.target.files[0];
+  const url = URL.createObjectURL(file);
+  const image = new Image(); // = document.createElement("img")
+  console.log(file);
+  console.log(url);
+  console.log(image);
+  image.src = url;
+  image.onload = function () {
+    ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+  };
+}
+
 // Change color use colorPicker
 function colorChangePicker(e) {
   ctx.strokeStyle = e.target.value;
@@ -288,3 +304,5 @@ colorPalette.forEach((color) =>
 
 fontWeight.addEventListener("click", textBoldActivate);
 textSubmit.addEventListener("click", toolStatusActive);
+
+addImageFile.addEventListener("change", inputImage);
