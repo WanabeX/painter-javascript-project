@@ -31,6 +31,7 @@ body {
   background-color: white;
   border: 3.4px solid #000000;
   border-radius: 1px;
+  cursor: url(../cursors/pencil-line.svg) 0 30, auto;
 }
 
 /* Colors */

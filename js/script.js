@@ -232,18 +232,23 @@ function toolStatusActive(e) {
   e.target.classList.add("active");
   const targetId = e.target.id;
   const targetName = e.target.name;
-  // Activate roles
+  // Change mouse cursor & Activate roles
   if (targetName == "drawing") {
     if (targetId == "pencil") {
+      canvas.style.cursor = "url(cursors/pencil-line.svg) 0 30, auto";
       mode = 0;
     } else if (targetId == "eraser") {
+      canvas.style.cursor = "url(cursors/eraser-line.svg) 0 30, auto";
       mode = 1;
     } else if (targetId == "paint") {
+      canvas.style.cursor = "url(cursors/paint-fill.svg) 0 30, auto";
       mode = 2;
     } else if (targetId == "line") {
+      canvas.style.cursor = "url(cursors/pen-nib-line.svg) 0 30, auto";
       mode = 3;
     }
   } else if (targetName == "shape") {
+    canvas.style.cursor = "crosshair";
     isShape = true;
     if (targetId == "square-stroke") {
       mode = 4;
@@ -259,6 +264,7 @@ function toolStatusActive(e) {
       isStroke = false;
     }
   } else if (targetId == "text-submit") {
+    canvas.style.cursor = "text";
     mode = 6;
   }
   eraseHandler();
