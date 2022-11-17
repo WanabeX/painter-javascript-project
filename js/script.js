@@ -110,8 +110,9 @@ function stopPainting(e) {
 // Eraser color control
 function eraseHandler() {
   if (mode === 1) {
-    ctx.strokeStyle = "#ffffff";
+    ctx.globalCompositeOperation = "destination-out";
   } else {
+    ctx.globalCompositeOperation = "source-over";
     ctx.strokeStyle = colorPicker.value;
     ctx.fillStyle = colorPicker.value;
   }
